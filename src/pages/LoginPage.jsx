@@ -59,6 +59,16 @@ export default function LoginPage({ onLogin }) {
               style={{ width:'100%', padding:'15px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, boxShadow:'0 4px 20px rgba(0,177,79,0.3)' }}>
               {loading ? 'Отправка...' : 'Получить код'}
             </button>
+            <div style={{ display:'flex', alignItems:'center', gap:12, margin:'16px 0' }}>
+              <div style={{ flex:1, height:1, background:'rgba(255,255,255,0.1)' }} />
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.3)' }}>или</div>
+              <div style={{ flex:1, height:1, background:'rgba(255,255,255,0.1)' }} />
+            </div>
+            <a href="https://t.me/forwork_ru_bot" target="_blank"
+              style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:10, width:'100%', padding:'15px', background:'#229ED9', color:'#fff', borderRadius:12, fontSize:16, fontWeight:700, textDecoration:'none' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.7 8.02c-.12.56-.46.7-.93.43l-2.57-1.9-1.24 1.19c-.14.14-.25.25-.51.25l.18-2.6 4.74-4.28c.21-.18-.04-.28-.32-.1L7.46 14.5l-2.52-.79c-.55-.17-.56-.55.12-.81l9.86-3.8c.45-.17.85.11.72.7z"/></svg>
+              Зарегистрироваться через Telegram
+            </a>
           </>
         ) : (
           <>
