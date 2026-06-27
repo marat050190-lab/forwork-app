@@ -70,7 +70,7 @@ export default function RegisterPage({ onLogin }) {
         {error && <div style={{ color:'var(--red)', fontSize:13, padding:'10px 14px', background:'#FEF2F2', borderRadius:8 }}>{error}</div>}
 
         <button onClick={submit} disabled={loading}
-          style={{ width:'100%', padding:'15px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, boxShadow:'0 4px 20px rgba(255,140,0,0.3)' }}>
+          style={{ width:'100%', padding:'15px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, boxShadow:'0 4px 20px rgba(0,177,79,0.25)' }}>
           {loading ? 'Регистрация...' : 'Начать работу'}
         </button>
       </div>

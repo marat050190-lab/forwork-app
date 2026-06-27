@@ -56,7 +56,7 @@ export default function LoginPage({ onLogin }) {
             </div>
             {error && <div style={{ color:'#FCA5A5', fontSize:13, marginBottom:12 }}>{error}</div>}
             <button onClick={sendCode} disabled={loading}
-              style={{ width:'100%', padding:'15px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, boxShadow:'0 4px 20px rgba(255,140,0,0.4)' }}>
+              style={{ width:'100%', padding:'15px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700, boxShadow:'0 4px 20px rgba(0,177,79,0.3)' }}>
               {loading ? 'Отправка...' : 'Получить код'}
             </button>
           </>

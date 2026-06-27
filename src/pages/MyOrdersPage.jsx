@@ -28,7 +28,7 @@ export default function MyOrdersPage() {
       <div style={{ fontSize:22, fontWeight:800, letterSpacing:'-0.5px', marginBottom:8 }}>Мои заказы</div>
 
       {total > 0 && (
-        <div style={{ background:'linear-gradient(135deg, var(--orange), #FF6000)', borderRadius:16, padding:18, marginBottom:20, color:'#fff' }}>
+        <div style={{ background:'linear-gradient(135deg, var(--orange), #00993F)', borderRadius:16, padding:18, marginBottom:20, color:'#fff' }}>
           <div style={{ fontSize:12, fontWeight:700, opacity:0.8, textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:4 }}>Заработано всего</div>
           <div style={{ fontSize:28, fontWeight:800 }}>{total.toLocaleString('ru')} ₽</div>
         </div>

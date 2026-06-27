@@ -59,7 +59,7 @@ export default function OrdersPage() {
           )}
 
           <button onClick={() => take(o.id)} disabled={taking === o.id}
-            style={{ width:'100%', padding:'13px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:10, fontSize:15, fontWeight:700, boxShadow:'0 3px 12px rgba(255,140,0,0.3)' }}>
+            style={{ width:'100%', padding:'13px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:10, fontSize:15, fontWeight:700, boxShadow:'0 3px 12px rgba(0,177,79,0.25)' }}>
             {taking === o.id ? 'Беру...' : 'Взять заказ'}
           </button>
         </div>
