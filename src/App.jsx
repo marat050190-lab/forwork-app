@@ -9,22 +9,45 @@ import BottomNav from './components/BottomNav.jsx'
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem('fw_token') || localStorage.getItem('forwork_token'))
+  const [contractor, setContractor] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('fw_contractor') || 'null') } catch { return null }
+  })
 
-  const login = (t) => { localStorage.setItem('fw_token', t); localStorage.removeItem('forwork_token'); setToken(t) }
-  const logout = () => { localStorage.removeItem('fw_token'); setToken(null) }
+  const login = (t, c) => {
+    localStorage.setItem('fw_token', t)
+    localStorage.removeItem('forwork_token')
+    if (c) localStorage.setItem('fw_contractor', JSON.stringify(c))
+    setToken(t)
+    setContractor(c || null)
+  }
+  const logout = () => {
+    localStorage.removeItem('fw_token')
+    localStorage.removeItem('fw_contractor')
+    setToken(null)
+    setContractor(null)
+  }
+
+  const isRegistered = contractor && contractor.first_name && contractor.city
 
   return (
     <BrowserRouter>
       {token ? (
-        <div style={{ paddingBottom: 70 }}>
+        isRegistered ? (
+          <div style={{ paddingBottom: 70 }}>
+            <Routes>
+              <Route path="/" element={<OrdersPage />} />
+              <Route path="/my-orders" element={<MyOrdersPage />} />
+              <Route path="/profile" element={<ProfilePage onLogout={logout} />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+            <BottomNav />
+          </div>
+        ) : (
           <Routes>
-            <Route path="/" element={<OrdersPage />} />
-            <Route path="/my-orders" element={<MyOrdersPage />} />
-            <Route path="/profile" element={<ProfilePage onLogout={logout} />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/register" element={<RegisterPage onLogin={login} />} />
+            <Route path="*" element={<Navigate to="/register" />} />
           </Routes>
-          <BottomNav />
-        </div>
+        )
       ) : (
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={login} />} />
