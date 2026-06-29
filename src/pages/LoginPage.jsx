@@ -7,6 +7,17 @@ export default function LoginPage({ onLogin }) {
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [codeSent, setCodeSent] = useState(false)
+
+  const sendCode = async () => {
+    if (!phone) return setError('Введите номер телефона')
+    setLoading(true); setError('')
+    try {
+      await api.post('/api/forwork/send-code', { phone })
+      setCodeSent(true)
+    } catch(e) { setError('Ошибка отправки кода') }
+    setLoading(false)
+  }
 
   const verifyCode = async () => {
     if (!phone || !code) return setError('Введите номер и код')
@@ -52,6 +63,14 @@ export default function LoginPage({ onLogin }) {
             style={{ width:'100%', padding:'14px 16px', background:'rgba(255,255,255,0.08)', border:'1.5px solid rgba(255,255,255,0.12)', borderRadius:12, color:'#fff', fontSize:16, outline:'none', boxSizing:'border-box' }} />
           <input value={code} onChange={e => setCode(e.target.value)} placeholder="Код из Telegram" type="number"
             style={{ width:'100%', padding:'14px 16px', background:'rgba(255,255,255,0.08)', border:'1.5px solid rgba(255,255,255,0.12)', borderRadius:12, color:'#fff', fontSize:24, outline:'none', textAlign:'center', letterSpacing:8, fontWeight:700, boxSizing:'border-box' }} />
+          {!codeSent ? (
+            <button onClick={sendCode} disabled={loading}
+              style={{ width:'100%', padding:'14px', background:'#229ED9', color:'#fff', border:'none', borderRadius:12, fontSize:15, fontWeight:700 }}>
+              {loading ? 'Отправка...' : '📨 Получить код в Telegram'}
+            </button>
+          ) : (
+            <div style={{ color:'#00B14F', fontSize:13, textAlign:'center' }}>✓ Код отправлен в Telegram</div>
+          )}
           {error && <div style={{ color:'#FCA5A5', fontSize:13, textAlign:'center' }}>{error}</div>}
           <button onClick={verifyCode} disabled={loading}
             style={{ width:'100%', padding:'16px', background:'#00B14F', color:'#fff', border:'none', borderRadius:12, fontSize:16, fontWeight:700 }}>
