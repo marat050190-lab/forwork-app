@@ -44,7 +44,7 @@ export default function App() {
           </div>
         ) : (
           <Routes>
-            <Route path="/register" element={<RegisterPage onLogin={login} />} />
+            <Route path="/register" element={<RegisterPage onLogin={login} token={token} />} />
             <Route path="*" element={<Navigate to="/register" />} />
           </Routes>
         )

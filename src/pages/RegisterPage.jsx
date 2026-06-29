@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import api from '../api.js'
 
-export default function RegisterPage({ onLogin }) {
+export default function RegisterPage({ onLogin, token }) {
   const { state } = useLocation()
   const [form, setForm] = useState({ first_name:'', last_name:'', middle_name:'', age:'', phone: state?.phone || '', is_self_employed: false, city:'' })
   const [loading, setLoading] = useState(false)
@@ -27,7 +27,8 @@ export default function RegisterPage({ onLogin }) {
     if (!form.first_name || !form.last_name || !form.age || !form.city) return setError('Заполните все обязательные поля')
     setLoading(true); setError('')
     try {
-      const r = await api.post('/api/forwork/register', form)
+      const t = token || localStorage.getItem('fw_token')
+      const r = await api.post('/api/forwork/register', form, { headers: { Authorization: 'Bearer ' + t } })
       onLogin(r.data.token, r.data.contractor)
     } catch(e) { setError(e.response?.data?.error || 'Ошибка') }
     setLoading(false)
