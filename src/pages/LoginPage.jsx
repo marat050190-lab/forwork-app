@@ -23,7 +23,7 @@ export default function LoginPage({ onLogin }) {
     if (!phone) return setError('Введите номер телефона')
     setLoading(true); setError('')
     try {
-      await api.post('/api/forwork/send-code', { phone })
+      await api.post('/api/forwork/send-code', { phone: phone.replace(/\D/g, '') })
       setCodeSent(true)
     } catch(e) { setError('Ошибка отправки кода') }
     setLoading(false)
@@ -33,7 +33,7 @@ export default function LoginPage({ onLogin }) {
     if (!phone || !code) return setError('Введите номер и код')
     setLoading(true); setError('')
     try {
-      const r = await api.post('/api/forwork/verify-code', { phone, code })
+      const r = await api.post('/api/forwork/verify-code', { phone: phone.replace(/\D/g, ''), code })
       onLogin(r.data.token)
     } catch(e) { setError('Неверный код') }
     setLoading(false)
