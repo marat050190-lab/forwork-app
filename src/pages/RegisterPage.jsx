@@ -28,7 +28,7 @@ export default function RegisterPage({ onLogin }) {
     setLoading(true); setError('')
     try {
       const r = await api.post('/api/forwork/register', form)
-      onLogin(r.data.token)
+      onLogin(r.data.token, r.data.contractor)
     } catch(e) { setError(e.response?.data?.error || 'Ошибка') }
     setLoading(false)
   }
