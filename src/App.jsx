@@ -8,9 +8,9 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import BottomNav from './components/BottomNav.jsx'
 
 export default function App() {
-  const [token, setToken] = useState(localStorage.getItem('fw_token'))
+  const [token, setToken] = useState(localStorage.getItem('fw_token') || localStorage.getItem('forwork_token'))
 
-  const login = (t) => { localStorage.setItem('fw_token', t); setToken(t) }
+  const login = (t) => { localStorage.setItem('fw_token', t); localStorage.removeItem('forwork_token'); setToken(t) }
   const logout = () => { localStorage.removeItem('fw_token'); setToken(null) }
 
   return (

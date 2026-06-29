@@ -40,7 +40,7 @@ export default function LoginPage({ onLogin }) {
     setError('')
     try {
       const r = await api.post('/api/forwork/auth/verify', { sessionId, code })
-      localStorage.setItem('forwork_token', r.data.token)
+      localStorage.setItem('fw_token', r.data.token)
       onLogin(r.data.contractor)
     } catch (e) {
       setError(e.response?.data?.error || 'Неверный код')
