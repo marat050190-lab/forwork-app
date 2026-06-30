@@ -24,6 +24,20 @@ export default function RegisterPage({ onLogin, token, contractor }) {
     }, () => setGeoLoading(false))
   }, [])
 
+  const formatPhone = (digits) => {
+    let d = digits.replace(/\D/g, '')
+    if (d.startsWith('7')) d = d.slice(1)
+    if (d.startsWith('8')) d = d.slice(1)
+    d = d.slice(0, 10)
+    let out = '+7'
+    if (d.length > 0) out += ' (' + d.slice(0, 3)
+    if (d.length >= 3) out += ')'
+    if (d.length > 3) out += ' ' + d.slice(3, 6)
+    if (d.length > 6) out += '-' + d.slice(6, 8)
+    if (d.length > 8) out += '-' + d.slice(8, 10)
+    return out
+  }
+
   const submit = async () => {
     if (!form.first_name || !form.last_name || !form.age || !form.city || !form.phone) return setError('Заполните все обязательные поля')
     setLoading(true); setError('')
@@ -53,7 +67,7 @@ export default function RegisterPage({ onLogin, token, contractor }) {
         <div><label style={lbl}>Имя *</label><input value={form.first_name} onChange={e => set('first_name', e.target.value)} placeholder="Иван" style={inp} /></div>
         <div><label style={lbl}>Отчество</label><input value={form.middle_name} onChange={e => set('middle_name', e.target.value)} placeholder="Иванович" style={inp} /></div>
         <div><label style={lbl}>Возраст *</label><input value={form.age} onChange={e => set('age', e.target.value)} placeholder="25" type="number" style={inp} /></div>
-        <div><label style={lbl}>Телефон *</label><input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+7 (900) 000-00-00" type="tel" style={inp} /></div>
+        <div><label style={lbl}>Телефон *</label><input value={form.phone} onChange={e => set('phone', formatPhone(e.target.value))} onFocus={() => { if (!form.phone) set('phone', '+7') }} placeholder="+7 (___) ___-__-__" type="tel" inputMode="numeric" style={{ ...inp, fontFamily:'monospace' }} /></div>
         <div><label style={lbl}>Город * {geoLoading && '(определяем...)'}</label><input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Казань" style={inp} /></div>
 
         <div style={{ background:'#fff', borderRadius:12, padding:16, border:'1.5px solid var(--border)' }}>
