@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import api from '../api.js'
 
 export default function ProfilePage({ onLogout }) {
-  const [contractor, setContractor] = useState(null)
+  const [stats, setStats] = useState(null)
+  const profile = (() => { try { return JSON.parse(localStorage.getItem('fw_contractor') || 'null') } catch { return null } })()
 
   useEffect(() => {
     api.get('/api/forwork/my-orders').then(r => {
       const done = r.data.filter(o => o.status === 'done')
       const total = done.reduce((s,o) => s + Number(o.executor_cost || 0), 0)
-      setContractor({ orders: r.data.length, done: done.length, total })
+      setStats({ orders: r.data.length, done: done.length, total })
     }).catch(() => {})
   }, [])
 
@@ -20,15 +21,19 @@ export default function ProfilePage({ onLogout }) {
         <div style={{ width:64, height:64, borderRadius:32, background:'var(--orange)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 12px' }}>
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
-        <div style={{ fontSize:18, fontWeight:700 }}>Исполнитель</div>
+        <div style={{ fontSize:18, fontWeight:700 }}>
+          {profile?.first_name ? `${profile.last_name || ''} ${profile.first_name} ${profile.middle_name || ''}`.trim() : 'Исполнитель'}
+        </div>
+        {profile?.city && <div style={{ fontSize:13, opacity:0.7, marginTop:4 }}>{profile.city}</div>}
+        {profile?.is_self_employed && <div style={{ fontSize:11, marginTop:6, background:'var(--orange)', display:'inline-block', padding:'2px 10px', borderRadius:10 }}>Самозанятый</div>}
       </div>
 
-      {contractor && (
+      {stats && (
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:12, marginBottom:20 }}>
           {[
-            { label:'Всего заказов', value: contractor.orders },
-            { label:'Выполнено', value: contractor.done },
-            { label:'Заработано', value: contractor.total.toLocaleString('ru') + ' ₽' },
+            { label:'Всего заказов', value: stats.orders },
+            { label:'Выполнено', value: stats.done },
+            { label:'Заработано', value: stats.total.toLocaleString('ru') + ' ₽' },
           ].map(({ label, value }) => (
             <div key={label} style={{ background:'#fff', borderRadius:14, padding:'14px 10px', textAlign:'center', boxShadow:'var(--shadow)' }}>
               <div style={{ fontSize:18, fontWeight:800, color:'var(--orange)' }}>{value}</div>
