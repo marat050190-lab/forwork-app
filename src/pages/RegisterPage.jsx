@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import api from '../api.js'
 
-export default function RegisterPage({ onLogin, token }) {
+export default function RegisterPage({ onLogin, token, contractor }) {
   const { state } = useLocation()
   const savedContractor = (() => { try { return JSON.parse(localStorage.getItem('fw_contractor') || 'null') } catch { return null } })()
   const [form, setForm] = useState({ first_name:'', last_name:'', middle_name:'', age:'', phone: state?.phone || '', is_self_employed: false, city:'' })
@@ -28,8 +28,8 @@ export default function RegisterPage({ onLogin, token }) {
     if (!form.first_name || !form.last_name || !form.age || !form.city) return setError('Заполните все обязательные поля')
     setLoading(true); setError('')
     try {
-      const contractorData = JSON.parse(localStorage.getItem('fw_contractor') || '{}')
-      const r = await api.post('/api/forwork/register', { ...form, contractor_id: contractorData.id })
+      const cid = contractor?.id || JSON.parse(localStorage.getItem('fw_contractor') || '{}').id
+      const r = await api.post('/api/forwork/register', { ...form, contractor_id: cid })
       onLogin(r.data.token, r.data.contractor)
     } catch(e) { setError(e.response?.data?.error || 'Ошибка') }
     setLoading(false)
