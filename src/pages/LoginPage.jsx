@@ -11,6 +11,21 @@ export default function LoginPage({ onLogin }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [resendTimer, setResendTimer] = useState(0)
+  const [phone, setPhone] = useState('')
+
+  const loginByPhone = async () => {
+    if (!phone) return setError('Введите номер телефона')
+    setLoading(true)
+    setError('')
+    try {
+      const r = await api.post('/api/forwork/auth/login-by-phone', { phone })
+      setSessionId(r.data.sessionId)
+      setStep(3)
+    } catch (e) {
+      setError(e.response?.data?.error || 'Ошибка входа')
+    }
+    setLoading(false)
+  }
 
   const startAuth = async () => {
     setLoading(true)
@@ -90,6 +105,29 @@ export default function LoginPage({ onLogin }) {
           </button>
           <button style={btnSecondary} disabled>
             Войти через Max <span style={{ fontSize:11, marginLeft:8, background:'rgba(255,255,255,0.1)', padding:'2px 8px', borderRadius:10 }}>Скоро</span>
+          </button>
+          <button onClick={() => setStep(4)} style={btnGhost}>
+            Уже зарегистрированы? Войти по номеру телефона
+          </button>
+        </>}
+
+        {step === 4 && <>
+          <div style={logo}>📞</div>
+          <h1 style={{ ...title, fontSize:20 }}>Вход по номеру телефона</h1>
+          <p style={subtitle}>Введите номер, указанный при регистрации.<br/>Код придёт в ваш Telegram.</p>
+          <input
+            value={phone}
+            onChange={e => { setPhone(e.target.value); setError('') }}
+            placeholder="+7 (900) 000-00-00"
+            type="tel"
+            style={{ width:'100%', padding:'16px', background:'rgba(255,255,255,0.08)', border:'1.5px solid rgba(255,255,255,0.12)', borderRadius:14, color:'#fff', fontSize:16, outline:'none', boxSizing:'border-box' }}
+          />
+          {error && <div style={errBox}>{error}</div>}
+          <button onClick={loginByPhone} style={btnPrimary} disabled={loading}>
+            {loading ? 'Отправка...' : 'Получить код'}
+          </button>
+          <button onClick={() => { setStep(1); setError(''); setPhone('') }} style={btnGhost}>
+            ← Назад
           </button>
         </>}
 
