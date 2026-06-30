@@ -43,6 +43,23 @@ export default function ProfilePage({ onLogout }) {
         </div>
       )}
 
+      {!profile?.is_self_employed && (
+        <div style={{ background:'#fff', borderRadius:16, padding:16, marginBottom:20, boxShadow:'var(--shadow)' }}>
+          <div style={{ fontWeight:700, fontSize:15, marginBottom:8 }}>Вы не самозанятый</div>
+          <div style={{ fontSize:13, color:'var(--gray)', marginBottom:12 }}>
+            Самозанятым доступен приоритет в получении заказов. Оформить статус можно бесплатно через приложение <a href="https://npd.nalog.ru" target="_blank" style={{ color:'var(--orange)' }}>«Мой налог»</a> за 5 минут.
+          </div>
+          <button onClick={async () => {
+            await api.patch('/api/forwork/profile/self-employed', { contractor_id: profile.id, is_self_employed: true })
+            const updated = { ...profile, is_self_employed: true }
+            localStorage.setItem('fw_contractor', JSON.stringify(updated))
+            window.location.reload()
+          }} style={{ width:'100%', padding:'12px', background:'var(--orange)', color:'#fff', border:'none', borderRadius:10, fontSize:14, fontWeight:600 }}>
+            Я оформил самозанятость
+          </button>
+        </div>
+      )}
+
       <div style={{ background:'#fff', borderRadius:16, overflow:'hidden', boxShadow:'var(--shadow)' }}>
         <button onClick={onLogout}
           style={{ width:'100%', padding:'16px 20px', background:'none', border:'none', textAlign:'left', fontSize:15, color:'var(--red)', fontWeight:600, borderTop:'1px solid var(--border)' }}>
