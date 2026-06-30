@@ -28,8 +28,11 @@ export default function RegisterPage({ onLogin, token, contractor }) {
     if (!form.first_name || !form.last_name || !form.age || !form.city) return setError('Заполните все обязательные поля')
     setLoading(true); setError('')
     try {
-      const cid = contractor?.id || JSON.parse(localStorage.getItem('fw_contractor') || '{}').id
+      const stored = JSON.parse(localStorage.getItem('fw_contractor') || '{}')
+      const cid = stored.id
+      if (!cid) { setError('Сессия истекла, войдите заново'); setLoading(false); return }
       const r = await api.post('/api/forwork/register', { ...form, contractor_id: cid })
+      localStorage.setItem('fw_contractor', JSON.stringify(r.data.contractor))
       onLogin(r.data.token, r.data.contractor)
     } catch(e) { setError(e.response?.data?.error || 'Ошибка') }
     setLoading(false)
