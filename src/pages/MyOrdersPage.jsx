@@ -55,7 +55,7 @@ export default function MyOrdersPage() {
           {o.address && <div style={{ fontSize:14, color:'var(--gray)', marginBottom:4 }}>📍 {o.address}</div>}
           {o.work_date && <div style={{ fontSize:14, color:'var(--gray)', marginBottom:10 }}>📅 {new Date(o.work_date).toLocaleDateString('ru-RU')}</div>}
           {o.executor_cost > 0 && <div style={{ fontSize:18, fontWeight:800, marginBottom: o.status !== 'done' ? 14 : 0 }}>{Number(o.executor_cost).toLocaleString('ru')} ₽</div>}
-          {o.status === 'pay_executor' && (
+          {o.status === 'in_progress' && (
             <button onClick={() => complete(o.id)} disabled={completing === o.id}
               style={{ width:'100%', padding:'12px', background:'var(--green)', color:'#fff', border:'none', borderRadius:10, fontSize:14, fontWeight:700 }}>
               {completing === o.id ? '...' : 'Отметить выполненным'}
