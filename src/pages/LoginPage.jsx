@@ -13,8 +13,29 @@ export default function LoginPage({ onLogin }) {
   const [resendTimer, setResendTimer] = useState(0)
   const [phone, setPhone] = useState('')
 
+  const formatPhone = (digits) => {
+    let d = digits.replace(/\D/g, '')
+    if (d.startsWith('7')) d = d.slice(1)
+    if (d.startsWith('8')) d = d.slice(1)
+    d = d.slice(0, 10)
+    let out = '+7'
+    if (d.length > 0) out += ' (' + d.slice(0, 3)
+    if (d.length >= 3) out += ')'
+    if (d.length > 3) out += ' ' + d.slice(3, 6)
+    if (d.length > 6) out += '-' + d.slice(6, 8)
+    if (d.length > 8) out += '-' + d.slice(8, 10)
+    return out
+  }
+
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhone(e.target.value)
+    setPhone(formatted)
+    setError('')
+  }
+
   const loginByPhone = async () => {
-    if (!phone) return setError('Введите номер телефона')
+    const digits = phone.replace(/\D/g, '')
+    if (digits.length < 11) return setError('Введите полный номер телефона')
     setLoading(true)
     setError('')
     try {
@@ -117,10 +138,12 @@ export default function LoginPage({ onLogin }) {
           <p style={subtitle}>Введите номер, указанный при регистрации.<br/>Код придёт в ваш Telegram.</p>
           <input
             value={phone}
-            onChange={e => { setPhone(e.target.value); setError('') }}
-            placeholder="+7 (900) 000-00-00"
+            onChange={handlePhoneChange}
+            onFocus={() => { if (!phone) setPhone('+7') }}
+            placeholder="+7 (___) ___-__-__"
             type="tel"
-            style={{ width:'100%', padding:'16px', background:'rgba(255,255,255,0.08)', border:'1.5px solid rgba(255,255,255,0.12)', borderRadius:14, color:'#fff', fontSize:16, outline:'none', boxSizing:'border-box' }}
+            inputMode="numeric"
+            style={{ width:'100%', padding:'16px', background:'rgba(255,255,255,0.08)', border:'1.5px solid rgba(255,255,255,0.12)', borderRadius:14, color:'#fff', fontSize:18, outline:'none', boxSizing:'border-box', letterSpacing:0.5, fontFamily:'monospace' }}
           />
           {error && <div style={errBox}>{error}</div>}
           <button onClick={loginByPhone} style={btnPrimary} disabled={loading}>
