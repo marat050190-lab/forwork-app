@@ -46,9 +46,9 @@ export default function MyOrdersPage() {
           <div style={{ display:'flex', justifyContent:'space-between', marginBottom:10 }}>
             <div style={{ fontSize:12, fontWeight:700, color:'var(--orange)' }}>#{o.id}</div>
             <span style={{ fontSize:11, fontWeight:700, padding:'4px 10px', borderRadius:20,
-              background: o.status === 'done' ? '#E6F9EE' : '#FFF3E0',
-              color: o.status === 'done' ? 'var(--green)' : 'var(--orange)' }}>
-              {o.status === 'done' ? 'Выполнен' : 'В работе'}
+              background: o.status === 'done' ? '#E6F9EE' : o.status === 'pay_executor' ? '#FEF3C7' : '#FFF3E0',
+              color: o.status === 'done' ? 'var(--green)' : o.status === 'pay_executor' ? '#92400E' : 'var(--orange)' }}>
+              {o.status === 'done' ? 'Выполнен' : o.status === 'pay_executor' ? 'Ожидает оплаты' : 'В работе'}
             </span>
           </div>
           {o.service_type && <div style={{ fontWeight:600, marginBottom:6 }}>{o.service_type}</div>}
