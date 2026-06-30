@@ -25,7 +25,7 @@ export default function RegisterPage({ onLogin, token, contractor }) {
   }, [])
 
   const submit = async () => {
-    if (!form.first_name || !form.last_name || !form.age || !form.city) return setError('Заполните все обязательные поля')
+    if (!form.first_name || !form.last_name || !form.age || !form.city || !form.phone) return setError('Заполните все обязательные поля')
     setLoading(true); setError('')
     try {
       const stored = JSON.parse(localStorage.getItem('fw_contractor') || '{}')
@@ -53,7 +53,7 @@ export default function RegisterPage({ onLogin, token, contractor }) {
         <div><label style={lbl}>Имя *</label><input value={form.first_name} onChange={e => set('first_name', e.target.value)} placeholder="Иван" style={inp} /></div>
         <div><label style={lbl}>Отчество</label><input value={form.middle_name} onChange={e => set('middle_name', e.target.value)} placeholder="Иванович" style={inp} /></div>
         <div><label style={lbl}>Возраст *</label><input value={form.age} onChange={e => set('age', e.target.value)} placeholder="25" type="number" style={inp} /></div>
-        <div><label style={lbl}>Телефон</label><input value={form.phone} readOnly style={{ ...inp, background:'var(--bg)', color:'var(--gray)' }} /></div>
+        <div><label style={lbl}>Телефон *</label><input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+7 (900) 000-00-00" type="tel" style={inp} /></div>
         <div><label style={lbl}>Город * {geoLoading && '(определяем...)'}</label><input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Казань" style={inp} /></div>
 
         <div style={{ background:'#fff', borderRadius:12, padding:16, border:'1.5px solid var(--border)' }}>
