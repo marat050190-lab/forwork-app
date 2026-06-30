@@ -24,7 +24,7 @@ export default function ProfilePage({ onLogout }) {
         <div style={{ fontSize:18, fontWeight:700 }}>
           {profile?.first_name ? `${profile.last_name || ''} ${profile.first_name} ${profile.middle_name || ''}`.trim() : 'Исполнитель'}
         </div>
-        {profile?.city && <div style={{ fontSize:13, opacity:0.7, marginTop:4 }}>{profile.city}</div>}
+        {profile?.city && <div style={{ fontSize:13, opacity:0.7, marginTop:4 }}>{profile.city}{profile?.age ? `, ${profile.age} лет` : ''}</div>}
         {profile?.is_self_employed && <div style={{ fontSize:11, marginTop:6, background:'var(--orange)', display:'inline-block', padding:'2px 10px', borderRadius:10 }}>Самозанятый</div>}
       </div>
 
