@@ -5,6 +5,7 @@ import RegisterPage from './pages/RegisterPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
 import MyOrdersPage from './pages/MyOrdersPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
+import PrivacyPage from './pages/PrivacyPage.jsx'
 import BottomNav from './components/BottomNav.jsx'
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
               <Route path="/" element={<OrdersPage />} />
               <Route path="/my-orders" element={<MyOrdersPage />} />
               <Route path="/profile" element={<ProfilePage onLogout={logout} />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
             <BottomNav />
@@ -45,6 +47,7 @@ export default function App() {
         ) : (
           <Routes>
             <Route path="/register" element={<RegisterPage onLogin={login} token={token} contractor={contractor} />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="*" element={<Navigate to="/register" />} />
           </Routes>
         )
@@ -52,6 +55,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={login} />} />
           <Route path="/register" element={<RegisterPage onLogin={login} />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}

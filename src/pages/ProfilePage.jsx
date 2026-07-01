@@ -65,6 +65,21 @@ export default function ProfilePage({ onLogout }) {
           style={{ width:'100%', padding:'16px 20px', background:'none', border:'none', textAlign:'left', fontSize:15, color:'var(--red)', fontWeight:600, borderTop:'1px solid var(--border)' }}>
           Выйти из аккаунта
         </button>
+        <button onClick={() => {
+          if (window.confirm('Вы уверены? Все ваши данные будут безвозвратно удалены.')) {
+            api.delete('/api/forwork/profile', { data: { contractor_id: profile?.id } })
+              .then(() => {
+                localStorage.removeItem('fw_token')
+                localStorage.removeItem('fw_contractor')
+                localStorage.removeItem('forwork_token')
+                window.location.href = '/login'
+              })
+              .catch(() => alert('Ошибка при удалении аккаунта. Попробуйте позже.'))
+          }
+        }}
+          style={{ width:'100%', padding:'16px 20px', background:'none', border:'none', textAlign:'left', fontSize:14, color:'#9ca3af', fontWeight:500, borderTop:'1px solid var(--border)' }}>
+          Удалить аккаунт
+        </button>
       </div>
     </div>
   )
